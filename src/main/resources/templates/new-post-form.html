@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Something</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+          crossorigin="anonymous">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <a th:href="@{/}" class="btn btn-primary">Home</a>
+
+    <div class="card mt-3 p-4 shadow">
+        <h3 class="text-center text-primary">New Post</h3>
+        <hr>
+        <form action="#" th:action="@{/save}" th:object="${post}" method="post">
+            <input type="hidden" th:field="${post.id}">
+
+            <div class="mb-3">
+                <textarea htmlEscape="false" wrap="physical" rows="3" type="text" th:field="${post.message}" class="form-control" placeholder="Enter some message!"></textarea>
+                <span th:if="${#fields.hasErrors('message')}"
+                      th:errors="${post.message}"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Select genre:</label>
+                <select th:field="${post.genre}" class="form-select">
+                    <option th:each="tempGenre: ${genres}" th:value="${tempGenre}" th:text="${tempGenre}"></option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Post</button>
+        </form>
+    </div>
+
+    <hr>
+    <a th:href="@{/}" class="btn btn-secondary">Back to Home</a>
+</div>
+
+</body>
+</html>

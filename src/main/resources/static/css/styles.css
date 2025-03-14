@@ -1,0 +1,9 @@
+@font-face {
+    font-family: myFirstFont;
+    src: url('/fonts/blood_crow/bloodcrow.ttf') format('truetype');
+}
+
+.text-custom {
+    font-family: myFirstFont, sans-serif;
+    font-size: 100px;
+}
