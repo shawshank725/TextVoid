@@ -11,43 +11,67 @@
 <body class="bg-light">
 
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <a th:href="@{/showFormForAdd}" class="btn btn-success">+</a>
+
+    <h1 class="text-center text-primary">Searching for: <span th:text="${keyword}"></span></h1>
+
+    <!-- Top Navigation -->
+    <div class="d-flex justify-content-between align-items-center bg-white shadow-sm p-3 rounded">
+        <a th:href="@{/showFormForAdd}" class="btn btn-success">+ Add Post</a>
         <a th:href="@{/}" class="btn btn-primary">Home</a>
+        <a th:href="@{/showLatestPosts}" class="btn btn-primary">See Latest Posts</a>
+        <form action="#" th:action="@{/search}" method="post" class="d-flex">
+            <input type="text" name="keyword" class="form-control me-2" placeholder="Search by message">
+            <button type="submit" class="btn btn-outline-secondary">Search</button>
+        </form>
     </div>
 
-    <form action="#" th:action="@{/search}" method="post" class="d-flex mb-4">
-        <input type="text" name="keyword" class="form-control me-2" placeholder="Search by message">
-        <button type="submit" class="btn btn-dark">Search</button>
-    </form>
 
-    <p th:if="${#lists.isEmpty(result)}" class="text-center text-muted">No posts found</p>
+    <!-- No posts message -->
+    <p th:if="${#lists.isEmpty(result)}" class="text-center text-muted mt-4">
+        No new posts yet. Click on "Add Post" to create a new post!
+    </p>
 
-    <div th:unless="${#lists.isEmpty(result)}" class="row">
-        <div class="col-lg-8">
-            <div class="card mb-3 shadow-sm" th:each="tempPost : ${result}">
-                <div class="card-body">
-                    <p class="mb-1"><strong>Post ID:</strong> <span th:text="${tempPost.id}"></span></p>
-                    <p class="mb-1"><strong>Message:</strong> <span th:text="${tempPost.message}"></span></p>
-                    <p class="mb-1"><strong>Genre:</strong> <span th:text="${tempPost.genre}"></span></p>
-                    <p class="mb-1"><strong>Date:</strong> <span th:text="${tempPost.date}"></span></p>
+    <div class="row mt-4">
+        <!-- Posts Section -->
+        <div class="col-md-8">
+            <div class="container p-3">
+                <div class="border rounded p-3 mb-3 bg-white shadow-sm" th:each="tempPost : ${result}">
+                    <p class="m-0 fs-6 text-secondary">Post ID: #<span th:text="${tempPost.id}"></span></p>
+                    <span th:id="'demo-' + ${tempPost.id}" class="m-0 fs-5" th:text="${tempPost.message}"></span>
+                    <p class="m-0 fs-6 text-muted">
+                        Genre: <span th:text="${tempPost.genre}"></span> | Date: <span th:text="${tempPost.date}"></span>
+                    </p>
                 </div>
             </div>
         </div>
 
-        <aside class="col-lg-4">
-            <div class="card p-3 shadow-sm">
-                <h3 class="text-center">Genre</h3>
-                <div class="list-group">
-                    <a th:each="tempGenre:${genres}"
-                       th:href="@{/searchByGenre(givenGenre=${tempGenre})}"
-                       th:text="${tempGenre}"
-                       class="list-group-item list-group-item-action text-primary"></a>
+        <!-- Sidebar for Genres -->
+        <div class="col-md-4">
+            <aside class="border rounded p-3 bg-white shadow-sm">
+                <h3 class="text-primary">Genres</h3>
+                <div th:each="tempGenre:${genres}" class="mb-2">
+                    <a th:href="@{/searchByGenre(givenGenre=${tempGenre})}"
+                       class="text-decoration-none text-dark fw-bold"
+                       onmouseover="this.style.color='blue'; this.style.textDecoration='underline';"
+                       onmouseout="this.style.color='black'; this.style.textDecoration='none';">
+                        <span th:text="${tempGenre}"></span>
+                    </a>
                 </div>
-            </div>
-        </aside>
+            </aside>
+        </div>
+
     </div>
 </div>
 
 </body>
+
+<script th:inline="javascript">
+    function myFunction(string) {
+            return string.replaceAll("\n", "<br>");
+        }
+
+    document.querySelectorAll("[id^='demo-']").forEach(element => {
+        element.innerHTML = myFunction(element.innerHTML);
+    });
+</script>
 </html>

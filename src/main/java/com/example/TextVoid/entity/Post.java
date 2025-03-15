@@ -75,5 +75,16 @@ public class Post {
     public void setDate(String date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", message='" + message + '\'' +
+                ", ipAddress='" + ipAddress + '\'' +
+                ", genre='" + genre + '\'' +
+                ", date='" + date + '\'' +
+                '}';
+    }
 }
 

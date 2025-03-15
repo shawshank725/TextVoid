@@ -83,7 +83,6 @@ public class PostController {
             thePost.setDate(str);
             thePost.setIpAddress(getLocalIpAddress());
             Post post = postService.save(thePost);
-
             return "redirect:/";
         }
     }
@@ -94,6 +93,7 @@ public class PostController {
             List<Post> result = postService.findByMessage(keyword);
             theModel.addAttribute("result", result);
             theModel.addAttribute("genres",genres);
+            theModel.addAttribute("keyword", keyword);
             return "search-message-results";
         }
         else {
@@ -107,6 +107,8 @@ public class PostController {
         List<Post> result = postService.findByGenre(genre);
         theModel.addAttribute("result", result);
         theModel.addAttribute("genres",genres);
+        theModel.addAttribute("givenGenre",genre);
+
         return "search-genre-results";
     }
 
